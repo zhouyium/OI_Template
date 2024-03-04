@@ -4,17 +4,31 @@
 # 目录结构
 OI_Template
 
+│   README.md
+
 ├───document_ch
 
 ├───document_en
 
 ├───src
 
-│   └───array
+│   ├───array
 
-│       └───string
+│   │   └───string
+
+│   │           HashedString.hpp
+
+│   └───vector
 
 └───verify
+
+    └───array
+
+        └───string
+
+               DoubleHash.cpp
+
+               SingleHash.cpp
 
 # 数组版本
 ## 文件
