@@ -48,7 +48,7 @@ namespace laozhou {
             return val;
         }
     private:
-        long long normal(int x){
+        long long normal(long long x){
             assert(_mo>0);
             return (x%_mo+_mo)%_mo;
         }
