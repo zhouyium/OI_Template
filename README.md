@@ -22,13 +22,13 @@ OI_Template
 
 └───verify
 
-    └───array
+│   └───array
 
-        └───string
+│       └───string
 
-               DoubleHash.cpp
+│   │          DoubleHash.cpp
 
-               SingleHash.cpp
+│   │          SingleHash.cpp
 
 # 数组版本
 ## 文件
