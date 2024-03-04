@@ -3,11 +3,17 @@
 
 # 目录结构
 OI_Template
+
 ├───document_ch
+
 ├───document_en
+
 ├───src
+
 │   └───array
+
 │       └───string
+
 └───verify
 
 # 数组版本
