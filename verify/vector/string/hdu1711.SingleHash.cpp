@@ -1,5 +1,6 @@
 /***
-https://cses.fi/problemset/task/1733/
+https://acm.hdu.edu.cn/showproblem.php?pid=1711
+http://47.110.135.197/problem.php?id=6773
 ***/
 #include <bits/stdc++.h>
 using namespace std;
