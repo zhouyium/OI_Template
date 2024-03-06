@@ -29,19 +29,19 @@ namespace laozhou {
             assert(_n>0);
             //处理系数
             while(_pow.size()<_n){
-                _pow.push_back(1ll*_pow.back()*_base%_mo);
+                _pow.push_back(normal(1ll*_pow.back()*_base));
             }
 
             //生成前缀哈希值
             pref.resize(_n+3,0);
             for (int i=1;i<=_n;i++) {
-                pref[i]=(1ll*pref[i-1]*_base+ar[i-1])%_mo;
+                pref[i]=normal(normal(1ll*pref[i-1]*_base)+ar[i-1]%_mo);
             }
 
             //生成后缀哈希
             suff.resize(_n+3,0);
             for(int i=_n;i>=1;i--){
-                suff[i]=(1ll*suff[i+1]*_base+ar[i-1])%_mo;
+                suff[i]=normal(normal(1ll*suff[i+1]*_base)+ar[i-1]%_mo);
             }
         }
         void init(const string &s){
@@ -54,14 +54,17 @@ namespace laozhou {
             }
             assert(1<=l&&l<=_n&&l<=r);
             assert(1<=r&&r<=_n);
-            int h=pref[r]-(1ll*_pow[r-l+1]*pref[l-1])%_mo;
-            h=(h+_mo)%_mo;
+            int h=normal(pref[r]-normal(1ll*_pow[r-l+1]*pref[l-1]));
             return h;
         }
 
-        int rev_hash(int l,int r){
-            int h=suff[l]-(1ll*_pow[r-l+1]*suff[r+1])%_mo;
-            h=(h+_mo)%_mo;
+        int rev_hash(int l=-1,int r=1){
+            if(l<0){
+                l=_n;
+            }
+            assert(1<=l&&l<=_n&&l>=r);
+            assert(1<=r&&r<=_n);
+            int h=normal(suff[l]-normal(1ll*_pow[r-l+1]*suff[r+1]));
             return h;
         }
     private:
