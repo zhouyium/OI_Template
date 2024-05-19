@@ -11,8 +11,8 @@ using PLL=pair<LL,LL>;
 template<typename T=long long>
 struct DSUNODE{
     int fa;//表示编号为i的节点父亲是谁。-1表示根节点
-    T w;//节点到父亲的权值
     //下面的内容根据题目添加
+    T dis;//表示飞船与其所在列队头的距离
 };
 //并查集模板
 template<typename T=long long>
@@ -36,7 +36,8 @@ public:
         }
         int t=val[x].fa;
         val[x].fa=find(val[x].fa);
-        val[x].w+=val[t].w;//val[x].w原来是与t的相对距离，现在是相对root的距离
+        //维护到父亲的权值，每题不一样
+        val[x].dis+=val[t].dis;//val[x].w原来是与t的相对距离，现在是相对root的距离
         return val[x].fa;
     }
 
@@ -47,16 +48,24 @@ public:
         if(fx==fy){
             return false;
         }
+        //按秩合并
+        //if(-val[fx].fa>-val[fy].fa){
+        //    swap(fx,fy);
+        //}
+
+        //处理权值变化根据题目来定
+        //val[fx].dis+=-val[fy].fa;
+        val[fx].dis=val[y].dis-val[x].dis+c;
+
+        //合并集合
         val[fy].fa+=val[fx].fa;//合并集合大小
         val[fx].fa=fy;
-        //权值变化根据题目来定
-        val[fx].w=val[y].w-val[x].w+c;
         return true;
     }
 
     void add(int x, T c){
         int fx=find(x);
-        val[fx].w+=c;
+        val[fx].dis+=c;
     }
 
     int size(int x){
@@ -73,8 +82,16 @@ public:
     DSUNODE<T> node(int x){
         return val[x];
     }
-};
 
+    //查询两点之间距离，如果不是同一组，返回-1
+    //每题都有区别
+    T dis(int x, int y){
+        if(!same(x,y)){
+            return -1;
+        }
+        return (val[x].dis-val[y].dis);
+    }
+};
 
 void solve(){
     int n,m,q;
@@ -89,13 +106,7 @@ void solve(){
     for(int i=1;i<=q;i++){
         int x,y;
         cin>>x>>y;
-        if(!dsu.same(x,y)){
-            cout<<"-1\n";
-        }else{
-            DSUNODE<> ret1=dsu.node(x);
-            DSUNODE<> ret2=dsu.node(y);
-            cout<<ret1.w-ret2.w<<"\n";
-        }
+        cout<<dsu.dis(x,y)<<"\n";
     }
 }
 

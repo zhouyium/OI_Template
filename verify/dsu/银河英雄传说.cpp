@@ -37,6 +37,7 @@ public:
         }
         int t=val[x].fa;
         val[x].fa=find(val[x].fa);
+        //维护到父亲的权值，每题不一样
         val[x].dis+=val[t].dis;//val[x].w原来是与t的相对距离，现在是相对root的距离
         return val[x].fa;
     }
@@ -64,7 +65,7 @@ public:
 
     void add(int x, T c){
         int fx=find(x);
-        val[fx].w+=c;
+        val[fx].dis+=c;
     }
 
     int size(int x){
@@ -81,6 +82,14 @@ public:
     DSUNODE<T> node(int x){
         return val[x];
     }
+
+    //查询两点之间距离，如果不是同一组，返回-1
+    T dis(int x, int y){
+        if(!same(x,y)){
+            return -1;
+        }
+        return abs(val[x].dis-val[y].dis)-1;
+    }
 };
 
 void solve(){
@@ -94,14 +103,7 @@ void solve(){
         if(op=='M'){
             dsu.join(x,y);
         }else if(op=='C'){
-            if(dsu.same(x,y)==false){
-                //x和y的祖先不相同，则不在同一列
-                cout<<"-1\n";
-            }else{
-                DSUNODE<> ret1=dsu.node(x);
-                DSUNODE<> ret2=dsu.node(y);
-                cout<<abs(ret1.dis-ret2.dis)-1<<"\n";
-            }
+            cout<<dsu.dis(x,y)<<"\n";
         }
     }
 }
