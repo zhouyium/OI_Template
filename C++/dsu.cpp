@@ -25,8 +25,15 @@ public:
     //找x的父亲
     int find(int x){
         if(val[x].fa<0){
+            //本身就是根节点
             return x;
         }
+        int nxt=find(val[x].fa);//不是根节点,nxt为x根节点点递归调用
+        //维护到父亲的权值，每题不一样
+        val[x].dis+=val[val[x].fa].dis;//val[x].w原来是与t的相对距离，现在是相对root的距离
+        val[x].fa=nxt;//修改父节点
+        return val[x].fa;
+
         int t=val[x].fa;
         val[x].fa=find(val[x].fa);
         //维护到父亲的权值，每题不一样

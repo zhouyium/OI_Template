@@ -35,9 +35,10 @@ public:
         if(val[x].fa<0){
             return x;
         }
-        int t=val[x].fa;
-        val[x].fa=find(val[x].fa);
-        val[x].w+=val[t].w;//val[x].w原来是与t的相对距离，现在是相对root的距离
+        int nxt=find(val[x].fa);
+        //维护到父亲的权值，每题不一样
+        val[x].w+=val[val[x].fa].w;//val[x].w原来是与t的相对距离，现在是相对root的距离
+        val[x].fa=nxt;
         return val[x].fa;
     }
 
