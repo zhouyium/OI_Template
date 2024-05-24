@@ -2,6 +2,8 @@
 #include<string>
 /*
  * KMP
+ * nxt[i]表示字串 s[1...i] 最长的相等的真前缀与真后缀的长度。
+ * 时间复杂度：O(n+m)，其中n是搜索串长度，m是模式串长度
  */
 std::vector<int> nxt;
 //求next数组
