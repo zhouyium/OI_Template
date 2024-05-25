@@ -28,7 +28,7 @@ struct TRIENODE{
         }
     }
 } tree[N];
-int idx=0;//
+int idx=0;//Trie指针
 
 //初始化
 void init(){
