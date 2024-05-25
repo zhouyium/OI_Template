@@ -9,9 +9,80 @@
  * 时间复杂度:O(n+m)
  * Ver: 1.0.0
  */
+
 #include<vector>
 #include<queue>
 #include<string>
+//AC自动机数据结构
+//在Trie中增加了 fail 指针
+struct TRIENODE{
+    int son[28];//叶子
+    int fail;//AC自动机fail
+    int end;//以自己为终点字符串出现的次数
+    //缺省构造函数
+    TRIENODE(){
+        fail=end=0;
+        for(int i=0;i<26;i++){
+            son[i]=0;
+        }
+    }
+};
+std::vector<TRIENODE> tree;
+
+//初始化
+void init(){
+    //清空数据
+    tree.clear();
+    //插入第一个节点
+    tree.push_back(TRIENODE());
+}
+
+//Trie树中插入字符串s
+//和标准Trie一样
+int insert(const std::string &s){
+    int p = 0;//插入位置
+    for (const auto &ch : s){
+        int c = ch - 'a';
+        if(tree[p].son[c]==0){
+            //儿子不存在，增加新节点
+            tree.push_back(TRIENODE());
+            tree[p].son[c]=tree.size()-1;
+        }
+        p = tree[p].son[c];
+    }
+    tree[p].end++;
+    return p;
+}
+
+//使用BFS构建AC自动机，构造回跳边和转移边
+//即生成nxt的值
+void build(){
+    std::queue<int> que;
+    //BFS初始状态
+    for(int i=0;i<26;i++){
+        if(tree[0].son[i]>0){
+            que.emplace(tree[0].son[i]);
+        }
+    }
+    while(que.size()){
+        int p=que.front();
+        que.pop();
+        for(int i=0;i<26;i++){
+            int v=tree[p].son[i];
+            if(v==0){
+                //儿子不存在
+                //爹自建转移边
+                tree[p].son[i]=tree[tree[p].fail].son[i];
+            }else{
+                //儿子存在
+                //爹帮儿子建回跳边
+                tree[v].fail=tree[tree[p].fail].son[i];
+                //儿子入队
+                que.emplace(v);
+            }
+        }
+    }
+}
 
 //查询主串
 int query(const std::string &s){
@@ -28,15 +99,17 @@ int query(const std::string &s){
 
 /*
  * 使用方法
- * 1. 构建trie
+ * 1. 初始化
+ *   init();
+ * 2. 构建trie
  * for(int i=1;i<=n;i++){
  *   string s;
  *   cin>>s;
  *   insert(s);
  * }
- * 2. 构建AC自动机
+ * 3. 构建AC自动机
  * build();
- * 3. 查询
+ * 4. 查询
  * cin>>s;
  * query(s);
  */
