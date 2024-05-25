@@ -7,25 +7,42 @@ using namespace std;
 
 const int N=1e6+10;
 //TRIE相关数据定义
-int trie[N][26];//Trie定义
-int cnt[N];//cnt[i]表示第i个字符串的节点位置，即以i为终止节点的字符串出现的次数
+//Trie数据定义
+struct TRIENODE{
+    int son[28];//叶子
+    int fail;//AC自动机fail
+    int end;//以自己为终点字符串出现的次数
+    //缺省构造函数
+    TRIENODE(){
+        for(int i=0;i<26;i++){
+            son[i]=0;
+            fail=0;
+            end=0;
+        }
+    }
+};
+std::vector<TRIENODE> tree;
 int idx=0;//控制当前插入位置
 
-//KMP定义
-int nxt[N];//nxt[i]表示i号节点结尾的字符串的最大后缀
-
+//初始化
+void init(){
+    tree.clear();
+    //插入第一个节点
+    tree.push_back(TRIENODE());
+}
 //Trie树中插入字符串s
 //和标准Trie一样
 int insert(const std::string &s){
     int p = 0;//插入位置
     for (const auto &ch : s){
         int c = ch - 'a';
-        if (!trie[p][c]) {
-            trie[p][c] = ++idx;
+        if(tree[p].son[c]==0){
+            tree.push_back(TRIENODE());
+            tree[p].son[c]=tree.size()-1;
         }
-        p = trie[p][c];
+        p = tree[p].son[c];
     }
-    cnt[p]++;
+    tree[p].end++;
     return p;
 }
 
@@ -35,43 +52,46 @@ void build(){
     std::queue<int> que;
     //BFS初始状态
     for(int i=0;i<26;i++){
-        if(trie[0][i]){
-            que.push(trie[0][i]);
+        if(tree[0].son[i]>0){
+            que.emplace(tree[0].son[i]);
         }
     }
     while(que.size()){
-        int u=que.front();
+        int p=que.front();
         que.pop();
         for(int i=0;i<26;i++){
-            int v=trie[u][i];
-            if(!v){
+            int v=tree[p].son[i];
+            if(v==0){
                 //儿子不存在
                 //爹自建转移边
-                trie[u][i]=trie[nxt[u]][i];
+                tree[p].son[i]=tree[tree[p].fail].son[i];
             }else{
                 //儿子存在
                 //爹帮儿子建回跳边
-                nxt[v]=trie[nxt[u]][i];
+                tree[v].fail=tree[tree[p].fail].son[i];
                 //儿子入队
-                que.push(v);
+                que.emplace(v);
             }
         }
     }
 }
 
+//查询主串
 int query(const std::string &s){
-    int u=0, res=0;
+    int p=0, res=0;
     for(const char ch:s){
-        u=trie[u][ch-'a'];//转移
-        for(int j=u; j && cnt[j]!=-1; j=nxt[j]){
-            res+=cnt[j];
-            cnt[j]=-1;
+        p=tree[p].son[ch-'a'];//转移
+        for(int j=p; j && tree[j].end>0; j=tree[j].fail){
+            res+=tree[j].end;
+            tree[j].end=0;
         }
     }
     return res;
 }
 
 void solve(){
+    //初始化
+    init();
     int n;
     cin>>n;
     for(int i=1;i<=n;i++){
