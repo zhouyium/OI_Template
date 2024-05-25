@@ -39,6 +39,7 @@ void init(){
             tree[i].son[j]=0;
         }
     }
+    idx=0;
 }
 
 //Trie树中插入字符串s
