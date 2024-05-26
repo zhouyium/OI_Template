@@ -18,6 +18,7 @@ struct TRIENODE{
     int son[28];//叶子
     int fail;//AC自动机fail
     int end;//以自己为终点字符串出现的次数
+    int num;//答案
     //缺省构造函数
     TRIENODE(){
         fail=end=0;
@@ -27,7 +28,6 @@ struct TRIENODE{
     }
 } tree[N];
 int idx=0;//Trie指针
-LL num[N];
 vector<int> adj[N];
 
 //初始化
@@ -35,6 +35,7 @@ void init(){
     //清空数据
     for(int i=0;i<=idx;i++){
         tree[i].fail=tree[i].end=0;
+        tree[i].num=0;
         for(int j=0;j<26;j++){
             tree[i].son[j]=0;
         }
@@ -94,7 +95,7 @@ int query(const std::string &s){
     int p=0, res=0;
     for(const char ch:s){
         p=tree[p].son[ch-'a'];//转移
-        num[p]++;
+        tree[p].num++;
     }
     return res;
 }
@@ -105,7 +106,7 @@ void dfs(int u){
             continue;
         }
         dfs(v);
-        num[u]+=num[v];
+        tree[u].num+=tree[v].num;
     }
 }
 
@@ -132,7 +133,7 @@ void solve(){
     dfs(0);
 
     for(int i=1;i<=n;i++){
-        cout<<num[tree[i].end]<<"\n";
+        cout<<tree[tree[i].end].num<<"\n";
     }
     cout<<"\n";
 }
