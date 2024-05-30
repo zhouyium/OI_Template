@@ -6,7 +6,7 @@
  *   遍历点 u 的所有出边：O(d^{+}(u))
  *   遍历整张图：O(n+m)
  *   空间复杂度：O(m)
- * 版本号：Ver0.1
+ * 版本号：Ver0.2
  */
 #include <vector>
 using PLL=pair<long long, long long>;
@@ -18,16 +18,16 @@ std::vector<bool> vis;//访问性控制
 std::vector<int> din;//入度
 std::vector<int> dout;//出度
 
-void init(int n, int m){
-    //一个 n 个节点，m 条有向边的图
+void init(int n){
+    //一个 n 个节点
     //初始化行
-    adj.assign(n+1, 0);
+    adj.assign(n+1, std::vector<PLL>());
     vis.assign(n+1, false);
     din.assign(n+1, 0);
     dout.assign(n+1, 0);
 }
 
-void add(int a, int b, int c){
+void add(int a, int b, int c=1){
     //a->b c
     //顶点 a 到顶点 b 有一条权为 c 的有向边
     adj[a].push_back({b,c});
