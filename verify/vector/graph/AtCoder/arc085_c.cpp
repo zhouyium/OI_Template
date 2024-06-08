@@ -1,5 +1,6 @@
 /*
- * https://atcoder.jp/contests/abc347/tasks/abc347_g
+ * https://atcoder.jp/contests/arc085/tasks/arc085_c
+ * http://47.110.135.197/problem.php?id=10373
  */
 #include<bits/stdc++.h>
 using namespace std;
@@ -186,76 +187,29 @@ const int dx[4] = {1, -1, 0, 0};
 const int dy[4] = {0, 0, 1, -1};
 
 void solve(){
-    int n,m;
+    int n;
     cin>>n;
-    MF_GRAPH<long long> gr(4*n*n+2);
-    int src=0, dst=1+4*n*n;
-    auto index=[&](int i,int j,int v){
-        return (i*n+j)*4+v;
-    };
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            for(int v=1;v+1<=4;v++){
-                // (i, j) is greater than v+1 ⟹ greater than v, and a penalty of +∞ is imposed if v+1 is 1 and v is 0
-                gr.add(index(i,j,v+1), index(i,j,v), 9e18);
-            }
+    vector<long long> a(n+2);
+    for(int i=1;i<=n;i++){
+        cin>>a[i];
+    }
+    MF_GRAPH<long long> gr(n+2);
+    int src=0, dst=n+1;
+    long long sum=0;
+    const long long INF = 9e18;
+    for(int i=1;i<=n;i++){
+        if(a[i]>0){
+            sum+=a[i];
+            gr.add(i,dst,a[i]);
+        }else{
+            gr.add(src,i,-a[i]);
+        }
+        for(int j=2*i;j<=n;j+=i){
+            gr.add(i,j,INF);
         }
     }
-    // squared difference of horizontal cells
-    for(int i=0;i<n;i++){
-        for(int j=0;j+1<n;j++){
-            for(int v=1;v<=4;v++){
-                gr.add(index(i,j,v), index(i,j+1,v),1);
-                gr.add(index(i,j+1,v), index(i,j,v), 1);
-                for(int u=1;u<v;u++){
-                    gr.add(index(i,j,v),index(i,j+1,u),2);
-                    gr.add(index(i,j+1,v),index(i,j,u),2);
-                }
-            }
-        }
-    }
-    // squareed difference of vertical cells
-    for(int i=0;i+1<n;i++){
-        for(int j=0;j<n;j++){
-            for(int v=1;v<=4;v++){
-                gr.add(index(i,j,v),index(i+1,j,v),1);
-                gr.add(index(i+1,j,v),index(i,j,v),1);
-                for(int u=1;u<v;u++){
-                    gr.add(index(i,j,v),index(i+1,j,u),2);
-                    gr.add(index(i+1,j,v),index(i,j,u),2);
-                }
-            }
-        }
-    }
-    // cells with numbers already written on them
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            int a;
-            cin>>a;
-            if(a==0){
-                continue;
-            }
-            if(a<5){
-                gr.add(index(i,j,a),dst,9e18);
-            }
-            if(a>1){
-                gr.add(src,index(i,j,a-1),9e18);
-            }
-        }
-    }
-    // Flow from S and T, and find the minimum cut
     long long ret=gr.flow(src,dst);
-    vector<bool> cut=gr.min_cut(src);
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            int b=1;
-            for(int v=1;v<=4;v++){
-                b+=cut[index(i,j,v)];
-            }
-            cout<<b<<" ";
-        }
-        cout<<"\n";
-    }
+    cout<<sum-ret<<"\n";
 }
 
 int main(){
