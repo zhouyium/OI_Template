@@ -9,12 +9,12 @@
 #include <queue>
 #include <vector>
 
-struct MF_GRAPH {
+template <class CAP>struct MF_GRAPH {
 public:
     MF_GRAPH() : _n(0) {}
     explicit MF_GRAPH(int n) : _n(n), _adj(n) {}
 
-    int add(int from, int to, long long cap) {
+    int add(int from, int to, CAP cap) {
         assert(0<=from && from<_n);
         assert(0<=to && to<_n);
         assert(0<=cap);
@@ -35,7 +35,7 @@ public:
      */
     struct EDGE {
         int from, to;
-        long long cap, flow;
+        CAP cap, flow;
     };
     EDGE get_edge(int i) {
         int m = int(_pos.size());
@@ -52,7 +52,7 @@ public:
         }
         return result;
     }
-    void change_edge(int i, long long new_cap, long long new_flow) {
+    void change_edge(int i, CAP new_cap, CAP new_flow) {
         int m = int(_pos.size());
         assert(0 <= i && i < m);
         assert(0 <= new_flow && new_flow <= new_cap);
@@ -66,10 +66,10 @@ public:
      * 求解从 s 到 t 的最大流
      * 时间复杂度O(n^2 m)
      */
-    long long flow(int s, int t) {
-        return flow(s, t, std::numeric_limits<long long>::max());
+    CAP flow(int s, int t) {
+        return flow(s, t, std::numeric_limits<CAP>::max());
     }
-    long long flow(int s, int t, long long flow_limit) {
+    CAP flow(int s, int t, CAP flow_limit) {
         assert(0 <= s && s < _n);
         assert(0 <= t && t < _n);
         assert(s != t);
@@ -99,16 +99,16 @@ public:
             }
         };
         //通过dfs寻找增广路
-        auto dfs = [&](auto self, int v, long long up) {
+        auto dfs = [&](auto self, int v, CAP up) {
             if (v == s) return up;
-            long long res = 0;
+            CAP res = 0;
             int level_v = level[v];
             for (int i = iter[v]; i < int(_adj[v].size()); i++) {
                 _EDGE e = _adj[v][i];
                 if (level_v <= level[e.to] || _adj[e.to][e.rev].cap == 0){
                     continue;
                 }
-                long long d = self(self, e.to, std::min(up - res, _adj[e.to][e.rev].cap));
+                CAP d = self(self, e.to, std::min(up - res, _adj[e.to][e.rev].cap));
                 if (d <= 0) {
                     continue;
                 }
@@ -123,7 +123,7 @@ public:
             return res;
         };
 
-        long long flow = 0;
+        CAP flow = 0;
         while (flow < flow_limit) {
             bfs();
             if (level[t] == -1) {
@@ -131,7 +131,7 @@ public:
             }
 
             iter.assign(_n+1,0);
-            long long f = dfs(dfs, t, flow_limit - flow);
+            CAP f = dfs(dfs, t, flow_limit - flow);
             if (!f) break;
             flow += f;
         }
@@ -170,7 +170,7 @@ private:
     struct _EDGE {
         int to;//v点
         int rev;//下一个边
-        long long cap;
+        CAP cap;
     };
     std::vector<std::vector<_EDGE>> _adj;
 };
@@ -178,7 +178,7 @@ private:
 /*
  * 使用方法
  * 1. 初始化
- *   MF_GRAPH flow(n+2); //注意，我们是从下标 1 开始
+ *   MF_GRAPH<long long> flow(n+2); //注意，我们是从下标 1 开始
  * 2. 加边
  *   flow.add(x,y,f);//x->y f
  * 3. 计算最大流
