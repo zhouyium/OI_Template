@@ -1,7 +1,8 @@
 /*
- *最大流 MaxFlow
+ *最大流 MaxFlow 的 Dinic 算法实现
  * 修改自AtCoder Library
  * https://github.com/atcoder/ac-library/blob/master/atcoder/maxflow.hpp
+ * 时间复杂度 O(n^2*m) n是节点数，m是边数
  */
 #include <algorithm>
 #include <cassert>
@@ -9,12 +10,14 @@
 #include <queue>
 #include <vector>
 
-template <class CAP>struct MF_GRAPH {
+template <typename class CAP>struct DINIC {
 public:
-    MF_GRAPH() : _n(0) {}
-    explicit MF_GRAPH(int n) : _n(n), _adj(n) {}
+    const CAP INF = std::numeric_limits<CAP>::max();
+public:
+    DINIC() : _n(0) {}
+    explicit DINIC(int n) : _n(n), _adj(n) {}
 
-    int add(int from, int to, CAP cap) {
+    int add(int from, int to, CAP cap, bool isDirected=true) {
         assert(0<=from && from<_n);
         assert(0<=to && to<_n);
         assert(0<=cap);
@@ -26,7 +29,7 @@ public:
             to_id++;
         }
         _adj[from].push_back(_EDGE{to, to_id, cap});
-        _adj[to].push_back(_EDGE{from, from_id, 0});
+        _adj[to].push_back(_EDGE{from, from_id, isDirected ? 0 : cap});
         return m;
     }
 
@@ -67,7 +70,7 @@ public:
      * 时间复杂度O(n^2 m)
      */
     CAP flow(int s, int t) {
-        return flow(s, t, std::numeric_limits<CAP>::max());
+        return flow(s, t, INF);
     }
     CAP flow(int s, int t, CAP flow_limit) {
         assert(0 <= s && s < _n);
@@ -178,7 +181,7 @@ private:
 /*
  * 使用方法
  * 1. 初始化
- *   MF_GRAPH<long long> flow(n+2); //注意，我们是从下标 1 开始
+ *   DINIC<long long> flow(n+2); //注意，我们是从下标 1 开始
  * 2. 加边
  *   flow.add(x,y,f);//x->y f
  * 3. 计算最大流
