@@ -10,24 +10,24 @@ namespace HLPP {
 #include <queue>
     //这里的N根据题目需求改动
     //const int N = 1200 + 10;
-    using cap = long long;
-    const cap INF = std::numeric_limits<cap>::max();
+    using CAP = long long;
+    const CAP INF = std::numeric_limits<CAP>::max();
 
     struct _EDGE {
         int to, idx;
-        cap flow;
+        CAP flow;
         bool origin;
-        _EDGE(int _to = 0, int _idx = 0, cap fl = 0, bool ori = 1) : to(_to), idx(_idx), flow(fl), origin(ori) {}
+        _EDGE(int _to = 0, int _idx = 0, CAP fl = 0, bool ori = 1) : to(_to), idx(_idx), flow(fl), origin(ori) {}
     };
 
     int n, m;
     int high_label, relabel_cnt;
     std::vector<std::vector<_EDGE>> g;
     std::vector<std::vector<int>> Q;
-    std::vector<cap> X;
+    std::vector<CAP> X;
     std::vector<int> H;
     std::vector<int> P;
-    //cap X[N];
+    //CAP X[N];
     //int H[N], P[N];
 
     void init(int _n, int _m) {
@@ -41,7 +41,7 @@ namespace HLPP {
         P.assign(_n,0);
     }
 
-    void add(int u, int v, cap flow, bool directed = true) {
+    void add(int u, int v, CAP flow, bool directed = true) {
         int p = g[u].size(), q = g[v].size();
         g[u].emplace_back(_EDGE(v, q, flow, 1));
         g[v].emplace_back(_EDGE(u, p, directed ? 0 : flow, 0));
@@ -83,7 +83,7 @@ namespace HLPP {
     }
 
     void discharge(int u) {
-        cap &tmp_flow = X[u];
+        CAP &tmp_flow = X[u];
         int h = n;
 
         for (int &p = P[u], sz = g[u].size(); sz--; --(p ? p : p = g[u].size())) {
@@ -98,7 +98,7 @@ namespace HLPP {
                 continue;
             }
 
-            const cap f = min(x.flow, tmp_flow);
+            const CAP f = min(x.flow, tmp_flow);
             x.flow -= f, tmp_flow -= f;
 
             if (!X[x.to]){
@@ -119,7 +119,7 @@ namespace HLPP {
         }
     }
 
-    cap solve(int s, int t) {
+    CAP solve(int s, int t) {
         const long long k = ((32 - __builtin_clz(m + 1)) * n) >> 1;
         relabel(t);
         X[s] = INF;X[t] = -INF;
