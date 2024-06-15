@@ -146,7 +146,7 @@ namespace HLPP {
 
 /*
  * 初始化    HLPP::init(n+2, m+2);
- * 加有向边  HLPP::add_edge(u, v, flow);
- * 加无向边  HLPP::add_edge(u, v, flow, false);
+ * 加有向边  HLPP::add(u, v, flow);
+ * 加无向边  HLPP::add(u, v, flow, false);
  * 求解     HLPP::solve(src,dst);
  */
