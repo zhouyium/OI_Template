@@ -37,10 +37,10 @@ namespace DINIC {
         assert(0<=from && from<_n);
         assert(0<=to && to<_n);
         assert(0<=cap);
-        int m = int(_pos.size());
-        _pos.push_back({from, int(G[from].size())});
-        int from_id = int(G[from].size());
-        int to_id = int(G[to].size());
+        int m = _pos.size();
+        _pos.push_back({from, G[from].size()});
+        int from_id = G[from].size();
+        int to_id = G[to].size();
         if (from == to) {
             to_id++;
         }
@@ -60,14 +60,14 @@ namespace DINIC {
      * returns the current internal state of the edges.
      */
     EDGE get_edge(int i) {
-        int m = int(_pos.size());
+        int m = _pos.size();
         assert(0 <= i && i < m);
         auto _e = G[_pos[i].first][_pos[i].second];
         auto _re = G[_e.to][_e.rev];
         return EDGE{_pos[i].first, _e.to, _e.cap + _re.cap, _re.cap};
     }
     std::vector<EDGE> edges() {
-        int m = int(_pos.size());
+        int m = _pos.size();
         std::vector<EDGE> result;
         for (int i = 0; i < m; i++) {
             result.push_back(get_edge(i));
@@ -75,7 +75,7 @@ namespace DINIC {
         return result;
     }
     void change_edge(int i, CAP new_cap, CAP new_flow) {
-        int m = int(_pos.size());
+        int m = _pos.size();
         assert(0 <= i && i < m);
         assert(0 <= new_flow && new_flow <= new_cap);
         auto& _e = G[_pos[i].first][_pos[i].second];
@@ -122,7 +122,7 @@ namespace DINIC {
             if (v == s) return up;
             CAP res = 0;
             int level_v = level[v];
-            for (int i = iter[v]; i < int(G[v].size()); i++) {
+            for (int i = iter[v]; i < G[v].size(); i++) {
                 _EDGE e = G[v][i];
                 if (level_v <= level[e.to] || G[e.to][e.rev].cap == 0){
                     continue;
