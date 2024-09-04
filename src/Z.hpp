@@ -2,6 +2,7 @@
 //#include <cassert>
 #include "Math.hpp"
 
+extern const int P;
 struct Z {
     int x;
     Z(int x = 0) : x(norm(x)) {}
