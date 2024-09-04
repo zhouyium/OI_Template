@@ -1,7 +1,8 @@
 #pragma once
 
 // assume -P <= x < 2P
-int norm(int x, int P=1e9+7) {
+// you should define P first.
+int norm(int x) {
     if (x < 0) {
         x += P;
     }
