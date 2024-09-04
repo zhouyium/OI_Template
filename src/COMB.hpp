@@ -71,4 +71,9 @@ using Z = int;
  *  2. define a variable
 #include "COMB.hpp"
 COMB comb;
+
+ * Examples
+ * 1. https://codeforces.com/contest/111/problem/D
+ * 2. https://codeforces.com/contest/1817/problem/C
+ * 3. https://codeforces.com/contest/1821/problem/F
  * */
