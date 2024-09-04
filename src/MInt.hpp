@@ -94,16 +94,17 @@ struct MInt {
     }
 };
 
-//定义模数
+/*
+ * How to use.
+ * 1. define modulo
+//define default modulo
 template<>
 int MInt<0>::Mod = 1e9+7;
+//define alias
+using Z=MInt<0>
 
-//定义别名
-using Z = MInt<0>;
-
-/*
- * 使用方法
- * 1. fixed modulo
+ * 2. examples
+ * 2.1 fixed modulo
     // print sum of array (mod 998244353)
     template<>
     int MInt<0>::Mod = 1e9+7;
@@ -117,7 +118,7 @@ using Z = MInt<0>;
        }
     }
  *
- * 2. user defined modulo
+ * 2.2 user defined modulo
   template<>
   int MInt<0>::Mod = 1e9+7;
   using Z = MInt<0>;
