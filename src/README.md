@@ -1,3 +1,6 @@
+# C++ 版本
+C++14
+
 # 参考 JiangLy 的代码
 
 https://www.acwing.com/file_system/file/content/whole/index/content/10943009/
