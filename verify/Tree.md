@@ -90,4 +90,5 @@ tr.addEdge(u,v);//u和v之间有一个无向边
 
 [LOJ10130 点的距离](https://loj.ac/s/2153817)
 
+[CF832D Misha, Grisha and Underground](https://codeforces.com/contest/832/submission/280172968)
 
