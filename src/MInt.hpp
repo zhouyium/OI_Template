@@ -42,40 +42,36 @@ struct MInt {
         assert(x != 0);
         return power(*this, getMod() - 2);
     }
-    constexpr MInt &operator*=(MInt rhs) & {
+    constexpr MInt &operator*=(const MInt &rhs) & {
         x = 1ll * x * rhs.x % getMod();
         return *this;
     }
-    constexpr MInt &operator+=(MInt rhs) & {
+    constexpr MInt &operator+=(const MInt &rhs) & {
         x = norm(x + rhs.x);
         return *this;
     }
-    constexpr MInt &operator-=(MInt rhs) & {
+    constexpr MInt &operator-=(const MInt &rhs) & {
         x = norm(x - rhs.x);
         return *this;
     }
-    constexpr MInt &operator/=(MInt rhs) & {
+    constexpr MInt &operator/=(const MInt &rhs) & {
         return *this *= rhs.inv();
     }
-    friend constexpr MInt operator*(MInt lhs, MInt rhs) {
-        MInt res = lhs;
-        res *= rhs;
-        return res;
+    friend constexpr MInt operator*(MInt lhs, const MInt &rhs) {
+        lhs *= rhs;
+        return lhs;
     }
-    friend constexpr MInt operator+(MInt lhs, MInt rhs) {
-        MInt res = lhs;
-        res += rhs;
-        return res;
+    friend constexpr MInt operator+(MInt lhs, const MInt &rhs) {
+        lhs += rhs;
+        return lhs;
     }
-    friend constexpr MInt operator-(MInt lhs, MInt rhs) {
-        MInt res = lhs;
-        res -= rhs;
-        return res;
+    friend constexpr MInt operator-(MInt lhs, const MInt &rhs) {
+        lhs -= rhs;
+        return lhs;
     }
-    friend constexpr MInt operator/(MInt lhs, MInt rhs) {
-        MInt res = lhs;
-        res /= rhs;
-        return res;
+    friend constexpr MInt operator/(MInt lhs, const MInt &rhs) {
+        lhs /= rhs;
+        return lhs;
     }
     friend constexpr std::istream &operator>>(std::istream &is, MInt &a) {
         int v;
@@ -86,11 +82,17 @@ struct MInt {
     friend constexpr std::ostream &operator<<(std::ostream &os, const MInt &a) {
         return os << a.val();
     }
-    friend constexpr bool operator==(MInt lhs, MInt rhs) {
+    friend constexpr bool operator==(const MInt &lhs, const MInt &rhs) {
         return lhs.val() == rhs.val();
     }
-    friend constexpr bool operator!=(MInt lhs, MInt rhs) {
+    friend constexpr bool operator!=(const MInt &lhs, const MInt &rhs) {
         return lhs.val() != rhs.val();
+    }
+    friend constexpr bool operator<(const MInt &lhs, const MInt &rhs) {
+        return lhs.val() < rhs.val();
+    }
+    friend constexpr bool operator>(const MInt &lhs, const MInt &rhs) {
+        return lhs.val() > rhs.val();
     }
 };
 
