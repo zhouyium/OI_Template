@@ -2,10 +2,12 @@
 
 #include <vector>
 
+namespace lz {
+
 struct TREE {
     int n;
     std::vector<int> siz;//siz[i]表示以 i 为根节点的树节点数量
-    std::vector<int> top;//头节点。top[i]表示编号为 i 的节点，头节点是 top[i]。
+    std::vector<int> top;//重链头节点。top[i]表示编号为 i 的节点，头节点是 top[i]。
     std::vector<int> dep;//dep[i]表示以 i 为根节点的树节点深度。根节点深度为 0
     std::vector<int> parent;//parent[i]表示节点 i 的父亲
     std::vector<int> son;//重儿子。son[i]表示编号为 i 的节点，重儿子节点是 son[i]。
@@ -25,6 +27,8 @@ struct TREE {
         dfs1(root);
         dfs2(root,root);
     }
+    //u 当前节点
+    //计算 siz, dep, parent, son
     void dfs1(int u) {
         siz[u] = 1;
         dep[u] = dep[parent[u]] + 1;
@@ -40,34 +44,43 @@ struct TREE {
             }
         }
     }
+    //u:当前节点
+    //h:节点u的重链头节点
+    //计算 top, in, out
     int cur = 0;//时间戳
     void dfs2(int u, int h) {
         in[u] = cur++;
         top[u] = h;
-        if(son[u]){
-            //重儿子
-            dfs2(son[u],h);
+        if(son[u]==0){
+            //叶子节点
+            return;
         }
+        //遍历重儿子
+        dfs2(son[u],h);
+        //遍历轻儿子
         for (auto v : adj[u]) {
+            //  回边             重儿子
             if(v==parent[u] || v==son[u]){
                 continue;
             }
-            //top[v] = v == adj[u][0] ? top[u] : v;
+            //v是轻儿子
             dfs2(v,v);
         }
         out[u] = cur;
     }
     //Least Common Ancestors
-    //重链LCA
+    //重链剖分求LCA
     int lca(int u, int v) {
         while (top[u] != top[v]) {
-            if (dep[top[u]] > dep[top[v]]) {
-                u = parent[top[u]];
-            } else {
-                v = parent[top[v]];
+            //u,v不是同一条重链
+            //比较u,v深度
+            if (dep[top[u]] < dep[top[v]]) {
+                std::swap(u,v);
             }
+            u = parent[top[u]];
         }
         return dep[u] < dep[v] ? u : v;
     }
 };
 
+}
