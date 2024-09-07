@@ -84,11 +84,11 @@ tr.addEdge(u,v);//u和v之间有一个无向边
 
 ## 例子
 
-[洛谷P3379 【模板】最近公共祖先（LCA）](https://www.luogu.com.cn/record/176136604)
+[洛谷P3379 【模板】最近公共祖先（LCA）](https://www.luogu.com.cn/record/176193753)
 
-[LOJ10135 祖孙询问](https://loj.ac/s/2153808)
+[LOJ10135 祖孙询问](https://loj.ac/s/2154009)
 
-[LOJ10130 点的距离](https://loj.ac/s/2153817)
+[LOJ10130 点的距离](https://loj.ac/s/2154011)
 
-[CF832D Misha, Grisha and Underground](https://codeforces.com/contest/832/submission/280172968)
+[CF832D Misha, Grisha and Underground](https://codeforces.com/contest/832/submission/280182797)
 
