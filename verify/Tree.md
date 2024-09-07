@@ -88,4 +88,6 @@ tr.addEdge(u,v);//u和v之间有一个无向边
 
 [LOJ10135 祖孙询问](https://loj.ac/s/2153808)
 
+[LOJ10130 点的距离](https://loj.ac/s/2153817)
+
 
