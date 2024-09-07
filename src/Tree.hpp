@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <utility>
+#include <cassert>
 
 namespace lz {
 
@@ -26,16 +27,23 @@ struct TREE {
     }
     //初始化
     void init(int root = 1) {
+        //初始化根节点参数
         top[root] = root;
+        dep[root] = 0;
+        parent[root] = -1;
         dfs1(root);
         dfs2(root,root);
     }
     //u 当前节点
     //计算 siz, dep, parent, son
     void dfs1(int u,int w=0) {
+        assert(u>=0);
         siz[u] = 1;
-        dep[u] = dep[parent[u]] + 1;
-        dis[u] = dis[parent[u]] + w;
+        if(parent[u]>=0){
+            //不是根节点
+            dep[u] = dep[parent[u]] + 1;
+            dis[u] = dis[parent[u]] + w;
+        }
         for (auto node : adj[u]) {
             int v=node.first;
             int w=node.second;
@@ -55,6 +63,7 @@ struct TREE {
     //计算 top, in, out
     int cur = 0;//时间戳
     void dfs2(int u, int h) {
+        assert(u>=0);
         in[u] = cur++;
         top[u] = h;
         if(son[u]==0){
@@ -78,6 +87,8 @@ struct TREE {
     //Least Common Ancestors
     //重链剖分求LCA
     int lca(int u, int v) {
+        assert(u>=0);
+        assert(v>=0);
         while (top[u] != top[v]) {
             //u,v不是同一条重链
             //比较u,v深度
