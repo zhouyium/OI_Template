@@ -1,5 +1,7 @@
 # FHQ Treap
 
+[FHQ-Treap学习笔记](https://www.luogu.com.cn/article/ifj4ute5)
+
 ## 例子
 
 [FHQ-Treap 题单](https://www.luogu.com.cn/training/147262#problems)
