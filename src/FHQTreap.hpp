@@ -32,7 +32,7 @@ int add(int v){
 }
 
 //维护子树信息
-void pushup(int u){
+void push_up(int u){
     tr[u].sz=tr[tr[u].ls].sz+tr[tr[u].rs].sz+1;
 }
 
@@ -40,17 +40,20 @@ void pushup(int u){
 //根据数值 v，将<=v的分裂成为一个子树，子树的根节点为x；将>v的分裂为另外一个子树，子树的根节点为y。
 void split(int u,int v,int &x,int &y){
     if(!u){
+        //当前访问节点为空，将左右区间树的虚拟节点赋值为0
         x=y=0;
         return;
     }
     if(tr[u].val>v){
+        //当前节点的val>v则该节点与其右子树一并归入右区间树，在右区间树中对左儿子建立虚拟节点并继续分裂左子树。
         y=u;
         split(tr[u].ls,v,x,tr[u].ls);
     }else{
+        //当前节点的val<=v则该节点与其左子树一并归入左区间树，在左区间树中对右儿子建立虚拟节点并继续分裂右子树。
         x=u;
         split(tr[u].rs,v,tr[u].rs,y);
     }
-    pushup(u);
+    push_up(u);
 }
 
 //将根节点为x,y的树合并
@@ -60,14 +63,14 @@ int merge(int x,int y){
         return x+y;
     }
     if(tr[x].key>tr[y].key){
-        //x树的值更大，合并x的右儿子和y，x为根节点
+        //x为根，合并x的右儿子和y，x为根节点
         tr[x].rs=merge(tr[x].rs,y);
-        pushup(x);
+        push_up(x);
         return x;
     }else{
-        //x树的值更大，合并y的左儿子和x，y为根节点
+        //y为根，合并y的左儿子和x，y为根节点
         tr[y].ls= merge(x,tr[y].ls);
-        pushup(y);
+        push_up(y);
         return y;
     }
 }
