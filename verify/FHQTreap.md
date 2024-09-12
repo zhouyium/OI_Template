@@ -15,3 +15,5 @@
 [洛谷P3871 \[TJOI2010\] 中位数](https://www.luogu.com.cn/record/176706801)
 
 [洛谷P2234 \[HNOI2002\] 营业额统计](https://www.luogu.com.cn/record/176706937)
+
+[P2596 \[ZJOI2006\] 书架](https://www.luogu.com.cn/record/176758009)

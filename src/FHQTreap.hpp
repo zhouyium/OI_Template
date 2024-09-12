@@ -110,7 +110,7 @@ namespace lz{
 
         //将一个点插入树
         void append(int value){
-            int x=0,y=0;
+            int x,y;
             //按照 value 分裂，找到插入点 x<=v<y
             split_by_value(root,value,x,y);
             //建立新节点
@@ -129,7 +129,7 @@ namespace lz{
         }
         //删除一个点
         void erase(int value){
-            int x=0,y=0,z=0;
+            int x,y,z;
             // 先找到 v 的分割点 => x <= v < z
             split_by_value(root,value,x,z);
             // 再按 v-1 分裂 x 树 => x <= v-1 < y <= v
@@ -144,7 +144,7 @@ namespace lz{
         // 查找排名, 满足 < v 的个数+1
         int find_rank(int value){
             //找到<=x-1的个数，因为数值等于 x 的可能有很多个
-            int x=0,y=0;
+            int x,y;
             split_by_value(root,value-1,x,y);
             //数量+1，就是x的排名
             int res=tree[x].sz+1;
