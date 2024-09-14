@@ -19,16 +19,16 @@ namespace lz{
         int tot;
         int root;//根节点
 
-        void push_up(int u){
-            tree[u].sz=tree[tree[u].ls].sz+tree[tree[u].rs].sz+1;
-            if(tree[u].ls>0){
-                tree[tree[u].ls].fa=u;
+        void push_up(int p){
+            tree[p].sz=tree[tree[p].ls].sz+tree[tree[p].rs].sz+1;
+            if(tree[p].ls>0){
+                tree[tree[p].ls].fa=u;
             }
-            if(tree[u].rs>0){
-                tree[tree[u].rs].fa=u;
+            if(tree[p].rs>0){
+                tree[tree[p].rs].fa=u;
             }
         }
-        void push_down(int u){
+        void push_down(int p){
         }
         //创建一个新节点
         int create(int x){
@@ -49,14 +49,14 @@ namespace lz{
                 x=y=0;
                 return;
             }
-            if(tree[u].val<=value){
+            if(tree[p].val<=value){
                 //当前节点的value<=v则该节点与其左子树一并归入左区间树，在左区间树中对右儿子建立虚拟节点并继续分裂右子树。
                 x=u;
-                split_by_value(tree[u].rs,value,tree[u].rs,y);
+                split_by_value(tree[p].rs,value,tree[p].rs,y);
             }else{
                 //当前节点的value>v则该节点与其右子树一并归入右区间树，在右区间树中对左儿子建立虚拟节点并继续分裂左子树。
                 y=u;
-                split_by_value(tree[u].ls,value,x,tree[u].ls);
+                split_by_value(tree[p].ls,value,x,tree[p].ls);
             }
             push_up(u);
         }
@@ -68,19 +68,19 @@ namespace lz{
          */
 
         //按位置分裂
-        void split_by_pos(int u,int K,int &x,int &y){
-            if(!u){
+        void split_by_pos(int p,int K,int &x,int &y){
+            if(!p){
                 x=y=0;
                 return;
             }
-            push_down(u);
-            if(tree[tree[u].ls].sz<K){
+            push_down(p);
+            if(tree[tree[p].ls].sz<K){
                 x=u;
-                K-=tree[tree[u].ls].sz+1;
-                split_by_pos(tree[u].rs,K,tree[u].rs,y);
+                K-=tree[tree[p].ls].sz+1;
+                split_by_pos(tree[p].rs,K,tree[p].rs,y);
             }else{
                 y=u;
-                split_by_pos(tree[u].ls,K,x,tree[u].ls);
+                split_by_pos(tree[p].ls,K,x,tree[p].ls);
             }
             push_up(u);
         }
@@ -154,16 +154,16 @@ namespace lz{
 
         //从子树 u 找第 K 小
         //返回节点位置
-        int find_kth(int u,int K){
-            int lsz=tree[tree[u].ls].sz;
+        int find_kth(int p,int K){
+            int lsz=tree[tree[p].ls].sz;
             if(K==lsz+1){
-                return u;//tree[u].val;
+                return p//tree[p].val;
             }else if(K<=lsz){
                 //进入左子树查询
-                return find_kth(tree[u].ls,K);
+                return find_kth(tree[p].ls,K);
             }else{
                 //进入右子树查询
-                return find_kth(tree[u].rs,K-lsz-1);
+                return find_kth(tree[p].rs,K-lsz-1);
             }
         }
 
