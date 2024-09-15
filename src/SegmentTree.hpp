@@ -17,7 +17,7 @@ namespace lz{
                 mn=INF;
             }
         };
-        Info operator+(const Info &n1, const Info &n2) {
+        Info merge(const Info &n1, const Info &n2) {
             Info c;
             c.sum=n1.sum+n2.sum;
             if(n1.mx>n2.mx){
@@ -50,7 +50,7 @@ namespace lz{
             assert(1<=p && p<=4*_n);
             assert(1<=2*p && 2*p<=4*_n);
             assert(1<=2*p+1 && 2*p+1<=4*_n);
-            info[p]=info[2*p]+info[2*p+1];
+            info[p]=merge(info[2*p],info[2*p+1]);
         }
         //建立线段树
         //ve从下标 0 开始
@@ -101,7 +101,7 @@ namespace lz{
                 return info[p];
             }
             int m=(l+r)>>1;
-            return query(2*p,l,m,x,y)+ query(2*p+1,m+1,r,x,y);
+            return merge(query(2*p,l,m,x,y),query(2*p+1,m+1,r,x,y));
         }
         //单点查询
         Info query(int l,int r){
