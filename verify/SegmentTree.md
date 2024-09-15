@@ -65,4 +65,14 @@ int r=3;
 Info res=SegmentTree::query(l, r);
 ```
 
-## Examples
+## 例题
+
+### 基础题
+
+[创建线段树](https://paste.ubuntu.com/p/JQ5Jtp6Bs2/)
+
+[单点更新](https://paste.ubuntu.com/p/KRncMTnnNv/)
+
+[查询区域和](https://paste.ubuntu.com/p/R4NYq2HcVf/)
+
+[查询区域最大值和出现次数](https://paste.ubuntu.com/p/mG7YtRQhFP/)
