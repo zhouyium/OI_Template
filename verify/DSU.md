@@ -11,3 +11,6 @@ DSU 模板代码。
 [CF EDU B. Disjoint Sets Union 2](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281566933)
 
 [CF EDU C. Experience](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281599150)
+
+### 扩展题
+[洛谷P1525 关押罪犯(二倍并查集)](https://www.luogu.com.cn/record/177356395)
