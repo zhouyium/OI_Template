@@ -9,3 +9,5 @@ DSU 模板代码。
 [CF EDU A. Disjoint Sets Union](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281566436)
 
 [CF EDU B. Disjoint Sets Union 2](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281566933)
+
+[CF EDU C. Experience](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281599150)
