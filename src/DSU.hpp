@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 
 /**
  * @brief 并查集模板
@@ -15,7 +14,11 @@
  * CF EDU B - Disjoint Sets Union 2
  *  https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281566933
  */
+#include <vector>
+#include <cassert>
+
 struct DSU {
+    int _n;
     std::vector<int> fa;///< 编号 i 所在并查集根节点是 fa[i]
     std::vector<int> sz;///< 编号 i 所在并查集节点总数
     //如果有额外数据，在这里维护
@@ -23,8 +26,8 @@ struct DSU {
     std::vector<int> mx;///< 编号 i 所在并查集最大值
     //如果有额外数据，在这里维护
 
-    DSU() {}
-    DSU(int n) {
+    DSU():_n(0) {}
+    DSU(int n):_n(n) {
         init(n);
     }
     /**
@@ -55,8 +58,10 @@ struct DSU {
     * @return 返回值 x 所属并查集根节点
     */
     int find(int x) {
+        assert(0<=x && x<_n);
         if (fa[x] != x) {
-            fa[x] = find(fa[x]);
+            return fa[x] = find(fa[x]);//路径压缩
+            //return find(fa[x]);//不路径压缩。这里需要平均子树大小
         }
         return fa[x];
     }
@@ -69,6 +74,8 @@ struct DSU {
     * @return 返回值 true 表示属于相同并查集；false 不是
     */
     bool same(int x, int y) {
+        assert(0<=x && x<_n);
+        assert(0<=y && y<_n);
         return find(x) == find(y);
     }
 
@@ -80,6 +87,8 @@ struct DSU {
     * @return 返回值 true 表示合并成功；false 两者已经是同一个并查集
     */
     bool merge(int x, int y) {
+        assert(0<=x && x<_n);
+        assert(0<=y && y<_n);
         x = find(x);
         y = find(y);
         if (x == y) {
@@ -101,14 +110,17 @@ struct DSU {
     * @return 返回值 节点 x 所属的并查集信息
     */
     int size(int x) {
+        assert(0<=x && x<_n);
         return sz[find(x)];
     }
 
     //如果有额外数据，在这里维护
     int min(int x){
+        assert(0<=x && x<_n);
         return mn[find(x)];
     }
     int max(int x){
+        assert(0<=x && x<_n);
         return mx[find(x)];
     }
     //如果有额外数据，在这里维护
