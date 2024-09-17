@@ -11,26 +11,57 @@
  * https://ac.nowcoder.com/acm/contest/view-submission?submissionId=63239142
  */
 struct DSU {
-    std::vector<int> fa;//父亲节点是谁
-    std::vector<int> sz;//以编号 i 为父亲的并查集大小
+    std::vector<int> fa;///< 父亲节点是谁
+    std::vector<int> sz;///< 以编号 i 为父亲的并查集大小
     DSU() {}
     DSU(int n) {
         init(n);
     }
-    vofa init(int n) {
+    /**
+    * @brief 初始化大小为 n 的并查集
+    * @param[in] n 并查集容量，可以使用的节点为 (0<=i<n)
+    * @return 返回值 无
+    */
+    void init(int n) {
+        //将 fa 的大小改为 n
         fa.resize(n);
+        //fa 的值设置为 1,2,...,n-1。
         std::iota(fa.begin(), fa.end(), 0);
+        //所有的并查集的大小都是 1
         sz.assign(n, 1);
     }
+
+    /**
+    * @brief 查找节点 x 所属并查集根节点
+    * @pre 必须在并查集初始化后才能调用
+    * @param[in] x 查找节点编号 (0<=x<n)
+    * @return 返回值 x 所属并查集根节点
+    */
     int find(int x) {
         if (fa[x] != x) {
             fa[x] = find(fa[x]);
         }
         return fa[x];
     }
+
+    /**
+    * @brief 判断节点 x 和节点 y 是否属于相同并查集
+    * @pre 必须在并查集初始化后才能调用
+    * @param[in] x 查找节点编号 (0<=x<n)
+    * @param[in] y 查找节点编号 (0<=x<n)
+    * @return 返回值 true 表示属于相同并查集；false 不是
+    */
     bool same(int x, int y) {
         return find(x) == find(y);
     }
+
+    /**
+    * @brief 将节点 y 所属的并查集合并到节点 x 所属的并查集
+    * @pre 必须在并查集初始化后才能调用
+    * @param[in] x 查找节点编号 (0<=x<n)
+    * @param[in] y 查找节点编号 (0<=x<n)
+    * @return 返回值 true 表示合并成功；false 两者已经是同一个并查集
+    */
     bool merge(int x, int y) {
         x = find(x);
         y = find(y);
@@ -41,6 +72,13 @@ struct DSU {
         fa[y] = x;
         return true;
     }
+
+    /**
+    * @brief 获得节点 x 所属的并查集内元素数量
+    * @pre 必须在并查集初始化后才能调用
+    * @param[in] x 节点编号 (0<=x<n)
+    * @return 返回值 节点 x 所属的并查集内元素数量
+    */
     int size(int x) {
         return sz[find(x)];
     }
