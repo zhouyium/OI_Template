@@ -9,10 +9,14 @@
  * @copydetails 本模板参考金牌选手 JiangLY 的模板
  * 下面的链接是 JiangLY 使用提交
  * https://ac.nowcoder.com/acm/contest/view-submission?submissionId=63239142
+ * 下面链接是我自己在CF EDU上验证
+ * https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281559099
+ * https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281559192
  */
+template<class Info>
 struct DSU {
-    std::vector<int> fa;///< 父亲节点是谁
-    std::vector<int> sz;///< 以编号 i 为父亲的并查集大小
+    std::vector<int> fa;///< 编号 i 的父亲节点是 fa[i]
+    std::vector<Info> info;///< 编号 i 为存储信息
     DSU() {}
     DSU(int n) {
         init(n);
@@ -28,7 +32,10 @@ struct DSU {
         //fa 的值设置为 1,2,...,n-1。
         std::iota(fa.begin(), fa.end(), 0);
         //所有的并查集的大小都是 1
-        sz.assign(n, 1);
+        info.resize(n);
+        for(int i=0;i<n;i++){
+            info[i]=Info(i);
+        }
     }
 
     /**
@@ -68,19 +75,58 @@ struct DSU {
         if (x == y) {
             return false;
         }
-        sz[x] += sz[y];
+        info[x] += info[y];
         fa[y] = x;
         return true;
     }
 
     /**
-    * @brief 获得节点 x 所属的并查集内元素数量
+    * @brief 获得节点 x 所属的并查集信息 Info
     * @pre 必须在并查集初始化后才能调用
     * @param[in] x 节点编号 (0<=x<n)
-    * @return 返回值 节点 x 所属的并查集内元素数量
+    * @return 返回值 节点 x 所属的并查集信息
     */
-    int size(int x) {
-        return sz[find(x)];
+    Info get(int x) {
+        return info[find(x)];
+    }
+};
+
+struct Info {
+    /**
+    * @brief 根据具体题目增加信息。
+    */
+    int sz;///< 并查集内节点数量。必须
+    int mn;///< 并查集内最小值
+    int mx;///< 并查集内最大值
+
+    /**
+    * @brief 缺省构造函数
+    */
+    Info(){
+        sz=1;
+        mn=INF;
+        mx=-INF;
+    }
+    /**
+    * @brief 根据 val 构造结构体 Info。
+    * @param[in] 参数根据题目决定
+    */
+    Info(int val){
+        sz=1;
+        mn=mx=val+1;
+    }
+
+    /**
+    * @brief 重载操作符 +=，用于并查集 merge() 函数
+    * @pre 必须在并查集初始化后才能调用
+    * @param[in] Info a，节点 a 的附加信息
+    * @return 返回值 并查集合并后根节点节点附加信息
+    */
+    Info& operator+=(const Info &a) {
+        sz+=a.sz;
+        mn=std::min(mn,a.mn);
+        mx=std::max(mx,a.mx);
+        return *this;
     }
 };
 

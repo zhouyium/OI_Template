@@ -6,5 +6,6 @@ DSU 模板代码。
 
 ### 基本应用
 
-[CF EDU A. Disjoint Sets Union](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281554956)
+[CF EDU A. Disjoint Sets Union](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281559099)
 
+[CF EDU B. Disjoint Sets Union 2](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281559192)
