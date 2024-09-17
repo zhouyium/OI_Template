@@ -10,13 +10,19 @@
  * 下面的链接是 JiangLY 使用提交
  * https://ac.nowcoder.com/acm/contest/view-submission?submissionId=63239142
  * 下面链接是我自己在CF EDU上验证
- * https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281559099
- * https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281559192
+ * CF EDU A - Disjoint Sets Union
+ *  https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281566436
+ * CF EDU B - Disjoint Sets Union 2
+ *  https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/submission/281566933
  */
-template<class Info>
 struct DSU {
-    std::vector<int> fa;///< 编号 i 的父亲节点是 fa[i]
-    std::vector<Info> info;///< 编号 i 为存储信息
+    std::vector<int> fa;///< 编号 i 所在并查集根节点是 fa[i]
+    std::vector<int> sz;///< 编号 i 所在并查集节点总数
+    //如果有额外数据，在这里维护
+    std::vector<int> mn;///< 编号 i 所在并查集最小值
+    std::vector<int> mx;///< 编号 i 所在并查集最大值
+    //如果有额外数据，在这里维护
+
     DSU() {}
     DSU(int n) {
         init(n);
@@ -32,10 +38,14 @@ struct DSU {
         //fa 的值设置为 1,2,...,n-1。
         std::iota(fa.begin(), fa.end(), 0);
         //所有的并查集的大小都是 1
-        info.resize(n);
+        sz.assign(n, 1);
+        //如果有额外数据，在这里维护
+        mn.resize(n);
+        mx.resize(n);
         for(int i=0;i<n;i++){
-            info[i]=Info(i);
+            mn[i]=mx[i]=i+1;
         }
+        //如果有额外数据，在这里维护
     }
 
     /**
@@ -75,7 +85,11 @@ struct DSU {
         if (x == y) {
             return false;
         }
-        info[x] += info[y];
+        //如果有额外数据，在这里维护
+        mn[x]=std::min(mn[x],mn[y]);
+        mx[x]=std::max(mx[x],mx[y]);
+        //如果有额外数据，在这里维护
+        sz[x] += sz[y];
         fa[y] = x;
         return true;
     }
@@ -86,48 +100,18 @@ struct DSU {
     * @param[in] x 节点编号 (0<=x<n)
     * @return 返回值 节点 x 所属的并查集信息
     */
-    Info get(int x) {
-        return info[find(x)];
-    }
-};
-
-struct Info {
-    /**
-    * @brief 根据具体题目增加信息。
-    */
-    int sz;///< 并查集内节点数量。必须
-    int mn;///< 并查集内最小值
-    int mx;///< 并查集内最大值
-
-    /**
-    * @brief 缺省构造函数
-    */
-    Info(){
-        sz=1;
-        mn=INF;
-        mx=-INF;
-    }
-    /**
-    * @brief 根据 val 构造结构体 Info。
-    * @param[in] 参数根据题目决定
-    */
-    Info(int val){
-        sz=1;
-        mn=mx=val+1;
+    int size(int x) {
+        return sz[find(x)];
     }
 
-    /**
-    * @brief 重载操作符 +=，用于并查集 merge() 函数
-    * @pre 必须在并查集初始化后才能调用
-    * @param[in] Info a，节点 a 的附加信息
-    * @return 返回值 并查集合并后根节点节点附加信息
-    */
-    Info& operator+=(const Info &a) {
-        sz+=a.sz;
-        mn=std::min(mn,a.mn);
-        mx=std::max(mx,a.mx);
-        return *this;
+    //如果有额外数据，在这里维护
+    int min(int x){
+        return mn[find(x)];
     }
+    int max(int x){
+        return mx[find(x)];
+    }
+    //如果有额外数据，在这里维护
 };
 
 /*
