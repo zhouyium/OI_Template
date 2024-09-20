@@ -19,7 +19,7 @@
 //懒标记部分
 struct Tag {
     //to add 懒标记
-    int add;//假发
+    int add;//加法
     Tag(int add_=0):add(add_){}
     // apply 函数提供给 push() 使用
     //用父结点的标记更新儿子的标记
