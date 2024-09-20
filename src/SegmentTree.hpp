@@ -52,12 +52,15 @@ struct SegmentTree {
     SegmentTree(int n) : n(n), merge(Merge()), info(4 << std::__lg(n)) {}
     SegmentTree(std::vector<Info> init) : SegmentTree(init.size()) {
         std::function<void(int, int, int)> build = [&](int p, int l, int r) {
+            //操作区间为 [l, r)
             if (r - l == 1) {
                 info[p] = init[l];
                 return;
             }
             int m = (l + r) / 2;
+            //操作区间为 [l, m)
             build(2 * p, l, m);
+            //操作区间为 [m, r)
             build(2 * p + 1, m, r);
             pull(p);
         };
@@ -67,6 +70,7 @@ struct SegmentTree {
         info[p] = merge(info[2 * p], info[2 * p + 1]);
     }
     void modify(int p, int l, int r, int x, const Info &v) {
+        //操作区间为 [l, r)
         if (r - l == 1) {
             info[p] = v;
             return;
@@ -80,10 +84,13 @@ struct SegmentTree {
         pull(p);
     }
     void modify(int p, const Info &v) {
+        //操作区间为 [l, r)
         modify(1, 0, n, p, v);
     }
     Info rangeQuery(int p, int l, int r, int x, int y) {
+        //操作区间为 [l, r)
         if (l >= y || r <= x) {
+            //处于非法区间
             return Info();
         }
         if (l >= x && r <= y) {
@@ -93,6 +100,7 @@ struct SegmentTree {
         return merge(rangeQuery(2 * p, l, m, x, y), rangeQuery(2 * p + 1, m, r, x, y));
     }
     Info rangeQuery(int l, int r) {
+        //操作区间为 [l, r)
         return rangeQuery(1, 0, n, l, r);
     }
 };

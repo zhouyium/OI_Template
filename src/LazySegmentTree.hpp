@@ -66,6 +66,7 @@ struct LazySegmentTree{
         info.assign(4 << std::__lg(n), Info());
         tag.assign(4 << std::__lg(n), Tag());
         std::function<void(int, int, int)> build = [&](int p, int l, int r) {
+            //操作区间为 [l, r)
             if (r - l == 1) {
                 info[p] = init_[l];
                 return;
@@ -95,6 +96,7 @@ struct LazySegmentTree{
 
     //> 单点修改
     void modify(int p, int l, int r, int x, const Info &v) {
+        //操作区间为 [l, r)
         if (r - l == 1) {
             info[p] = v;
             return;
@@ -109,12 +111,15 @@ struct LazySegmentTree{
         pull(p);
     }
     void modify(int p, const Info &v) {
+        //操作区间为 [l, r)
         modify(1, 0, n, p, v);
     }
 
     //> 区域查询
     Info rangeQuery(int p, int l, int r, int x, int y) {
+        //操作区间为 [l, r)
         if (l >= y || r <= x) {
+            //处于非法区间
             return Info();
         }
         if (l >= x && r <= y) {
@@ -125,12 +130,15 @@ struct LazySegmentTree{
         return rangeQuery(2 * p, l, m, x, y) + rangeQuery(2 * p + 1, m, r, x, y);
     }
     Info rangeQuery(int l, int r) {
+        //操作区间为 [l, r)
         return rangeQuery(1, 0, n, l, r);
     }
 
     //>区域更新
     void rangeApply(int p, int l, int r, int x, int y, const Tag &v) {
+        //操作区间为 [l, r)
         if (l >= y || r <= x) {
+            //处于非法区间
             return;
         }
         if (l >= x && r <= y) {
@@ -144,6 +152,7 @@ struct LazySegmentTree{
         pull(p);
     }
     void rangeApply(int l, int r, const Tag &v) {
+        //操作区间为 [l, r)
         return rangeApply(1, 0, n, l, r, v);
     }
 
