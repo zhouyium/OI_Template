@@ -99,7 +99,7 @@ void update(int u, int l, int r, int ql, int qr, const Tag &val) {
     }
     pull(u);
 }
-void update(int u, int ql, int qr, const Tag &val) {
+void update(int ql, int qr, const Tag &val) {
     update(1,1,n,ql,qr,val);
 }
 
@@ -120,6 +120,6 @@ NODE query(int u, int l, int r, int ql, int qr) {
     }
     return t1+t2;
 }
-NODE query(int u, int ql, int qr) {
+NODE query(int ql, int qr) {
     return query(1,1,n,ql,qr);
 }
