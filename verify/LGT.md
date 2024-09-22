@@ -4,6 +4,6 @@
 
 ## 基础例子
 
-[洛谷P3372](https://www.luogu.com.cn/record/177659178)
+[洛谷P3372](https://www.luogu.com.cn/record/177875192)
 
-[洛谷P3373](https://www.luogu.com.cn/record/177668305)
+[洛谷P3373](https://www.luogu.com.cn/record/177872665)
