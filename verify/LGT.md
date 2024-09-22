@@ -13,3 +13,7 @@
 [洛谷P3372](https://www.luogu.com.cn/record/177875192)
 
 [洛谷P3373](https://www.luogu.com.cn/record/177872665)
+
+## 进阶例子
+
+[维护序列SEQ](https://paste.ubuntu.com/p/GFCRSD4yhm/)
